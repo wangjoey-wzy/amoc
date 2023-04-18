@@ -43,18 +43,10 @@ if computew:
 if debug:
    out_file_db=out_file[:-2]+'debug.nc'
 
-#in_dir='/glade/scratch/yeager/iHesp/'
-#out_dir='/glade/scratch/yeager/iHesp/'
-#in_file = in_dir+'B.E.13.B1850C5.ne120_t12.sehires38.003.sunway_02.pop.h.0116-01.nc'
-#out_file = out_dir+'B.E.13.B1850C5.ne120_t12.sehires38.003.sunway_02.pop.h.0116-01.MOC.nc'
-#out_file_db = out_dir+'MOCz.0042-0061.python.debug.nc'
 
 # Regression test for MOC(z) computation:
-# in_dir='/glade/p/cgd/oce/projects/JRA55/IAF/g.e20.G.TL319_t13.control.001/ocn/tavg/'
-# in_file=in_dir+'g.e20.G.TL319_t13.control.001.pop.tavg.0042-0061.nc'
-#  
+
 # should reproduce vetted MOC(z) here (verified to within roundoff of Frank Bryan's fortran code):
-# out_file = '/glade/p/cgd/oce/projects/JRA55/IAF/g.e20.G.TL319_t13.control.001/ocn/tavg/MOCz.0042-0061.nc'
 
 # Import offline MOC routines written in fortran (compile with f2py if necessary)
 f90mocroutines='./MOCoffline.POP_0p1deg.f90'
@@ -382,11 +374,7 @@ for n in range(1,ny):
 # print("lat_aux_atl_start= ",lat_aux_atl_start)
 
 #    b. regrid VDXDZ from ULONG,ULAT to TLONG,ULAT grid
-#tmp=veflux
-#tmpw=tmp.roll(nlon=1,roll_coords=False)        
-#tmpall=xr.concat([tmp,tmpw],dim='dummy')
-#veflux=tmpall.where(tmpall<1e30).mean('dummy')
-#del tmp,tmpw,tmpall
+
 veflux = veflux.where(veflux<1e30)
 #    c. zonal integral of Atlantic points
 atlmask=xr.DataArray(np.where(rmask==6,1,0),dims=['nlat','nlon'])
